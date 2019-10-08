@@ -6,12 +6,12 @@ export interface IDialogs extends Document {
     author: {
         type: Schema.Types.ObjectId;
         ref: string;
-        required: true;
+        require: true;
     };
     partner: {
         type: Schema.Types.ObjectId;
         ref: string;
-        required: true;
+        require: true;
     };
     lastMessage: {
         type: Schema.Types.ObjectId;
