@@ -8,10 +8,12 @@ import {
     MessagesController
 } from './controllers';
 
+import { LastSeen } from './middleware';
 
 const app = express()
 
 app.use(bodyParser.json())
+app.use(LastSeen);
 
 const User = new UserController;  // Ctrl (controller)
 const Dialogs = new DialogsController;

@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { isEmail } from 'validator';
 
 
 export interface IDialogs extends Document {
