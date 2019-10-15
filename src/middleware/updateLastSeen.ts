@@ -14,14 +14,5 @@ export default (req: express.Request, res: express.Response, next: express.NextF
         { new: true },
         () => { }
     )
-    // UserModel.updateOne(
-    //     { _id: '5d9b61587730363d486dba8d' },
-    //     {
-    //         $set: {
-    //             last_seen: new Date()
-    //         }
-    //     },
-    //     () => { }
-    // );
     next();
 }
