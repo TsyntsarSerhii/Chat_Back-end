@@ -10,6 +10,7 @@ import {
 } from './controllers';
 
 import { LastSeen, checkAuth } from './middleware';
+import { loginValidation } from './helpers/validations';
 
 
 const app = express()
@@ -23,7 +24,7 @@ const User = new UserController;  // Ctrl (controller)
 const Dialogs = new DialogsController;
 const Messages = new MessagesController;
 
-mongoose.connect("mongodb://localhost:27017/chat", {
+mongoose.connect('mongodb://localhost:27017/chat', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -33,7 +34,7 @@ mongoose.connect("mongodb://localhost:27017/chat", {
 app.get("/user/:id", User.show)//-----------Routs--------------
 app.post("/user/registration", User.create)
 app.delete("/user/:id", User.delete)
-app.post("/user/login", User.login)
+app.post("/user/login", loginValidation, User.login)
 
 app.get("/dialogs", Dialogs.index)
 app.post("/dialogs", Dialogs.create)
