@@ -5,8 +5,8 @@ import { DialogsModel, MessagesModel } from '../models';
 
 class DialogsController {
 
-    index(req: express.Request, res: express.Response) {
-        const authorId = "5d9b61587730363d486dba8d";
+    index(req: any, res: express.Response) {
+        const authorId = req.user._id;
 
         DialogsModel.
             find({ author: authorId }).
