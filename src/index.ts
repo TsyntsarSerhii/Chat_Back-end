@@ -31,7 +31,8 @@ mongoose.connect('mongodb://localhost:27017/chat', {
     useUnifiedTopology: true
 });
 
-app.get("/user/:id", User.show)//-----------Routs--------------
+app.get("/user/me", User.getMe)//-----------Routs--------------
+app.get("/user/:id", User.show)
 app.post("/user/registration", User.create)
 app.delete("/user/:id", User.delete)
 app.post("/user/login", loginValidation, User.login)

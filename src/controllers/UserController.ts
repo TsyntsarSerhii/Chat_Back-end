@@ -10,6 +10,20 @@ class UserController {
 
     show(req: express.Request, res: express.Response) {
         const id: string = req.params.id;
+
+        UserModel.findById(id, (err, user) => {
+            if (err) {
+                return res.status(404).json({
+                    message: 'User not found'
+                });
+            }
+            res.json(user)
+        })
+    }
+
+    getMe(req: any, res: express.Response) {
+        const id: string = req.user._id;
+
         UserModel.findById(id, (err, user) => {
             if (err) {
                 return res.status(404).json({
@@ -36,6 +50,7 @@ class UserController {
 
     delete(req: express.Request, res: express.Response) {
         const id: string = req.params.id;
+
         UserModel.findOneAndRemove({ _id: id })
             .then(user => {
                 if (user) {
