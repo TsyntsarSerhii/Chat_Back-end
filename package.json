@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/index.ts"
   },
-  "author": "",
+  "author": "S.T",
   "license": "ISC",
   "dependencies": {
         "bcrypt": "^3.0.6",
