@@ -1,12 +1,19 @@
 import express from 'express';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
+import socket from 'socket.io';
 
 import { UserModel } from '../models';
 import { createJWTToken } from '../helpers';
 
 
 class UserController {
+
+    io: socket.Server;
+
+    constructor(io: socket.Server) {
+        this.io = io;
+    }
 
     show(req: express.Request, res: express.Response) {
         const id: string = req.params.id;
@@ -99,4 +106,4 @@ class UserController {
     }
 }
 
-export default UserController; 
+export default UserController;  

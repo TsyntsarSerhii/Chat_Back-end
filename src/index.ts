@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 
 import './core/db';
-import createRoutes from './core/routes'
+import createRoutes from './core/routes';
 
 
 const app = express()
@@ -13,15 +13,11 @@ const io = socket(http);  // soket server
 
 dotenv.config();
 
-createRoutes(app);
+createRoutes(app, io);
 
-io.on('connection', function (socket: any) {
-    console.log('Connected');
+io.on('connection', function (socket) {
+    console.log('Connected!');
     socket.emit('TEST_1', 'wwwwwwwwwwwwwwwww');
-
-    // socket.on('TEST_2', function (msg: any) {
-    //     console.log('Clien say:' + msg);
-    // });
 });
 
 http.listen(process.env.PORT, function () {

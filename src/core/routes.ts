@@ -1,21 +1,26 @@
 import bodyParser from 'body-parser';
+import express from 'express';
+import socket from 'socket.io';
 
 import {
-    UserController,
-    DialogsController,
-    MessagesController
+    UserCtrl,
+    DialogsCtrl,
+    MessagesCtrl
 } from '../controllers';
 
 import { LastSeen, checkAuth } from '../middleware';
 import { loginValidation } from '../helpers/validations';
 
 
-export default (app: any) => {
+const createRoutes = (app: express.Express, io: socket.Server) => {
+
+    const UserController = new UserCtrl(io);
+    const DialogsController = new DialogsCtrl(io);
+    const MessagesController = new MessagesCtrl(io);
 
     app.use(bodyParser.json())
     app.use(LastSeen);
     app.use(checkAuth);
-
 
     app.get("/user/me", UserController.getMe)//-----------Routs--------------
     app.get("/user/:id", UserController.show)
@@ -32,4 +37,4 @@ export default (app: any) => {
     app.delete("/messages/:id", MessagesController.delete)
 }
 
-
+export default createRoutes;

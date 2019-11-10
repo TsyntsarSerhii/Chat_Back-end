@@ -1,9 +1,16 @@
 import express from 'express';
+import socket from 'socket.io';
 
 import { DialogsModel, MessagesModel } from '../models';
 
 
 class DialogsController {
+
+    io: socket.Server;
+
+    constructor(io: socket.Server) {
+        this.io = io;
+    }
 
     index(req: any, res: express.Response) {
         const authorId = req.user._id;
