@@ -15,11 +15,6 @@ dotenv.config();
 
 createRoutes(app, io);
 
-io.on('connection', function (socket) {
-    console.log('Connected!');
-    socket.emit('TEST_1', 'wwwwwwwwwwwwwwwww');
-});
-
 http.listen(process.env.PORT, function () {
     console.log(`Server: http://localhost:${process.env.PORT}`);
 });

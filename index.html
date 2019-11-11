@@ -15,8 +15,8 @@
             var socket = io('http://localhost:3000');
 
             window.socket = socket;
-            socket.on('TEST_1', function (msg) {
-                console.log('message: ' + msg);
+            socket.on('NEW:MESSAGE', function (msg) {
+                console.log('new message: ', msg);
             });
         };
     </script>

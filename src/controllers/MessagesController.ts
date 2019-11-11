@@ -12,7 +12,7 @@ class MessagesController {
         this.io = io;
     }
 
-    index(req: express.Request, res: express.Response) {
+    index = (req: express.Request, res: express.Response) => {
         const dialogId: string = req.query.dialog;
 
         MessagesModel.
@@ -28,7 +28,7 @@ class MessagesController {
             })
     }
 
-    create(req: any, res: express.Response) {
+    create = (req: any, res: express.Response) => {
         const userId = req.user._id;
 
         const postData = {
@@ -43,12 +43,14 @@ class MessagesController {
             .save()
             .then((obj: any) => {
                 res.json(obj);
-            }).catch(reason => {
+                this.io.emit('NEW:MESSAGE', obj)
+            })
+            .catch(reason => {
                 res.json(reason)
             })
     }
 
-    delete(req: express.Request, res: express.Response) {
+    delete = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
 
         MessagesModel.findOneAndRemove({ _id: id })
