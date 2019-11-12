@@ -15,8 +15,10 @@
             var socket = io('http://localhost:3000');
 
             window.socket = socket;
-            socket.on('NEW:MESSAGE', function (msg) {
-                console.log('new message: ', msg);
+            socket.on("SERVER:NEW_MESSAGE", function (msg) {
+                if (window.user !== msg.user) {
+                    console.log(msg)
+                }
             });
         };
     </script>

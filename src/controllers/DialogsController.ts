@@ -12,7 +12,7 @@ class DialogsController {
         this.io = io;
     }
 
-    index(req: any, res: express.Response) {
+    index = (req: any, res: express.Response) => {
         const authorId = req.user._id;
 
         DialogsModel.
@@ -28,7 +28,7 @@ class DialogsController {
             })
     }
 
-    create(req: express.Request, res: express.Response) {
+    create = (req: express.Request, res: express.Response) => {
         const postData = {
             author: req.body.author,
             partner: req.body.partner,
@@ -57,7 +57,7 @@ class DialogsController {
             });
     }
 
-    delete(req: express.Request, res: express.Response) {
+    delete = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
         DialogsModel.findOneAndRemove({ _id: id })
             .then(dialogs => {

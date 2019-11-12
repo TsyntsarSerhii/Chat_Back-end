@@ -10,5 +10,3 @@ export default (http: http.Server) => {
     });
     return io;
 }
-
-//move socket logic to a separate file, 
