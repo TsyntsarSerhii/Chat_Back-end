@@ -41,20 +41,6 @@ class UserController {
         })
     }
 
-    create(req: express.Request, res: express.Response) {
-        const postData = {
-            email: req.body.email,
-            fullname: req.body.fullname,
-            password: req.body.password,
-        }
-        const user = new UserModel(postData);
-        user.save().then((obj: any) => {
-            res.json(obj);
-        }).catch(reason => {
-            res.json(reason)
-        })
-    }
-
     delete(req: express.Request, res: express.Response) {
         const id: string = req.params.id;
 
@@ -73,6 +59,31 @@ class UserController {
             });
     }
 
+    create(req: express.Request, res: express.Response) {
+        const postData = {
+            email: req.body.email,
+            fullname: req.body.fullname,
+            password: req.body.password,
+        };
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+        const user = new UserModel(postData);
+
+        user.save().then((obj: any) => {
+            res.json(obj);
+        }).catch(reason => {
+            res.status(500).json({
+                status: 'error',
+                message: reason
+            });
+        });
+    }
+
     login(req: express.Request, res: express.Response) {
         const postData = {
             email: req.body.email,
@@ -85,7 +96,7 @@ class UserController {
         }
 
         UserModel.findOne({ email: postData.email }, (err, user: any) => {
-            if (err) {
+            if (err || !user) {
                 return res.status(404).json({
                     message: 'User not found'
                 });

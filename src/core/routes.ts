@@ -9,7 +9,7 @@ import {
 } from '../controllers';
 
 import { LastSeen, checkAuth } from '../middleware';
-import { loginValidation } from '../helpers/validations';
+import { loginValidation, registerValidation } from '../helpers/validations';
 
 
 const createRoutes = (app: express.Express, io: socket.Server) => {
@@ -18,15 +18,18 @@ const createRoutes = (app: express.Express, io: socket.Server) => {
     const DialogsController = new DialogsCtrl(io);
     const MessagesController = new MessagesCtrl(io);
 
+    let cors = require('cors')
+    app.use(cors())
+
     app.use(bodyParser.json())
     app.use(LastSeen);
     app.use(checkAuth);
 
     app.get("/user/me", UserController.getMe)//-----------Routs--------------
     app.get("/user/:id", UserController.show)
-    app.post("/user/registration", UserController.create)
     app.delete("/user/:id", UserController.delete)
-    app.post("/user/login", loginValidation, UserController.login)
+    app.post("/user/signup", registerValidation, UserController.create)
+    app.post("/user/signin", loginValidation, UserController.login)
 
     app.get("/dialogs", DialogsController.index)
     app.post("/dialogs", DialogsController.create)

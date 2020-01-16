@@ -2,7 +2,7 @@ import { verifyJWTToken } from '../helpers';
 
 
 export default (req: any, res: any, next: any) => {
-    if (req.path === "/user/login" || req.path === '/user/registration') {
+    if (req.path === "/user/signin" || req.path === '/user/signup') {
         return next();
     }
     const token = req.headers.token;
