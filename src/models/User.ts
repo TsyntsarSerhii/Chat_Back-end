@@ -43,14 +43,18 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function (next) {
-    const user: IUser = this;
+    const user: any = this;
 
     if (!user.isModified('password')) return next();
 
     generatePasswordHash(user.password)
         .then(hash => {
             user.password = String(hash);
-            next();
+            generatePasswordHash(new Date().toString())
+                .then(confirmHash => {
+                    user.confirm_hash = String(confirmHash);
+                    next();
+                });
         })
         .catch(err => {
             next(err);

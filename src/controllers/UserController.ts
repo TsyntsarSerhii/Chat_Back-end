@@ -84,6 +84,37 @@ class UserController {
         });
     }
 
+    verify(req: express.Request, res: express.Response) {
+        const hash = req.query.hash;
+
+        if (!hash) {
+            return res.status(422).json({ errors: 'Invalid hash' });
+        }
+
+        UserModel.findOne({ confirm_hash: hash }, (err, user) => {
+            if (err || !user) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: 'Hash not found'
+                });
+            }
+
+            user.confirmed = true;
+            user.save(err => {
+                if (err) {
+                    return res.status(404).json({
+                        status: 'error',
+                        message: err
+                    });
+                }
+                res.json({
+                    status: 'success',
+                    message: 'Successfully account confirmed!'
+                });
+            });
+        });
+    };
+
     login(req: express.Request, res: express.Response) {
         const postData = {
             email: req.body.email,
