@@ -1,18 +1,20 @@
-import express from 'express';
+import express from "express";
+import { UserModel } from "../models";
 
-import { UserModel } from '../models';
-
-
-export default (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    UserModel.findByIdAndUpdate(
-        { _id: '5d9b61587730363d486dba8d' },
-        {
-            $set: {
+export default (
+    req: any,
+    __: express.Response,
+    next: express.NextFunction
+) => {
+    if (req.user) {
+        UserModel.findOneAndUpdate(
+            { _id: req.user._id },
+            {
                 last_seen: new Date()
-            }
-        },
-        { new: true },
-        () => { }
-    )
+            },
+            { new: true },
+            () => { }
+        );
+    }
     next();
-}
+};

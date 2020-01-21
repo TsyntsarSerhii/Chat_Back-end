@@ -16,9 +16,15 @@ class DialogsController {
         const authorId = req.user._id;
 
         DialogsModel.
-            find({ author: authorId }).
-            populate(['author', 'partner']).
-            exec(function (err, dialogs) {
+            find({ author: authorId })
+            .populate(['author', 'partner'])
+            .populate({
+                path: 'lastMessage',
+                populate: {
+                    path: 'user',
+                }
+            })
+            .exec(function (err, dialogs) {
                 if (err) {
                     return res.status(404).json({
                         message: 'Dialogs not found'

@@ -22,8 +22,8 @@ const createRoutes = (app: express.Express, io: socket.Server) => {
     app.use(cors())
 
     app.use(bodyParser.json())
-    app.use(LastSeen);
     app.use(checkAuth);
+    app.use(LastSeen);
 
     app.get("/user/me", UserController.getMe)//-----------Routs--------------
     app.get("/user/verify", UserController.verify)

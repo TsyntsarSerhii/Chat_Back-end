@@ -8,7 +8,6 @@ import { createJWTToken } from '../helpers';
 
 
 class UserController {
-
     io: socket.Server;
 
     constructor(io: socket.Server) {
@@ -29,10 +28,10 @@ class UserController {
     }
 
     getMe(req: any, res: express.Response) {
-        const id: string = req.user._id;
+        const id: string = req.user && req.user._id;
 
-        UserModel.findById(id, (err, user) => {
-            if (err) {
+        UserModel.findById(id, (err, user: any) => {
+            if (err || !user) {
                 return res.status(404).json({
                     message: 'User not found'
                 });
@@ -135,11 +134,11 @@ class UserController {
             if (bcrypt.compareSync(postData.password, user.password)) {
                 const token = createJWTToken(user);
                 res.json({
-                    status: 'Success',
+                    status: 'success',
                     token
                 });
             } else {
-                res.json({
+                res.status(403).json({
                     status: 'error',
                     message: "Incorrect password or email."
                 });

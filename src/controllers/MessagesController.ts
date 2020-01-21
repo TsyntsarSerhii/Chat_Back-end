@@ -1,7 +1,7 @@
 import express from 'express';
 import socket from 'socket.io';
 
-import { MessagesModel } from '../models';
+import { MessagesModel, DialogsModel } from '../models';
 
 
 class MessagesController {
@@ -45,11 +45,26 @@ class MessagesController {
                 obj.populate("dialog", (err: any, message: any) => {
                     if (err) {
                         return res.status(500).json({
+                            status: 'error',
                             message: err
                         });
                     }
+                    DialogsModel.findByIdAndUpdate(
+                        { _id: postData.dialog },
+                        { lastMessage: message._id },
+                        { upsert: true },
+                        function (err) {
+                            if (err) {
+                                return res.status(500).json({
+                                    status: 'error',
+                                    message: err
+                                });
+                            }
+                        }
+                    )
                     res.json(message);
                     this.io.emit("SERVER:NEW_MESSAGE", message);
+
                 });
             })
             .catch(reason => {

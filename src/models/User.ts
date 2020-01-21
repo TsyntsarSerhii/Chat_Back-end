@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { isEmail } from 'validator';
+import differenceInMinutes from 'date-fns/differenceInMinutes';
 
 import { generatePasswordHash } from '../helpers';
 
@@ -40,6 +41,13 @@ const UserSchema = new Schema({
     }
 }, {
     timestamps: true
+});
+
+UserSchema.virtual("isOnline").get(function (this: any) {
+    return differenceInMinutes(new Date(), this.last_seen) < 5;
+});
+UserSchema.set("toJSON", {
+    virtuals: true
 });
 
 UserSchema.pre('save', function (next) {
